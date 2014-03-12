@@ -1,0 +1,128 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Aplicación 1</title>
+
+<style type="text/css">
+		p { color: blue; }
+		#propiedadesDispositivo { color: red; }
+		#result  { color: green; }
+</style>
+
+<script type="text/javascript" charset="utf-8" src="cordova.js">
+</script>
+<script type="text/javascript" charset="utf-8">
+		//Espera a que se inicie PhoneGap
+		document.addEventListener("deviceready", controlPlano, false);
+		
+		//Escucha los eventos pause y resume
+		function controlPlano() {
+			document.addEventListener("pause", segundoPlano, false);
+			document.addEventListener("resume", primerPlano, false);
+		}
+	//Acción a realizar cuando la APP pasa a segundo plano
+		function segundoPlano() {
+			alert("La aplicación pasa a segundo plano");
+		}
+		
+	//Acción a realizar cuando la APP vuelve a primer plano
+		function primerPlano() {
+			alert("La aplicación vuelve a primer plano");
+		}
+		
+	//Espera a que se inicie PhoneGap
+	document.addEventListener("deviceready", controlBotones, false);
+	
+	//Escucha los eventos nemubutton, backbutton y searchbutton
+	function controlBotones() {
+			document.addEventListener("menubutton", Menu, false);
+			document.addEventListener("backbutton", Atras, false);
+			document.addEventListener("searchbutton", Buscar, false);
+	}
+	
+	//Acción a realizar cuando es pulsado el botón Menú
+	function Menu() {
+			var menu = document.getElementById('botonmenu');
+			menu.innerHTML = 'Ha pulsado el botón Menú';
+			alert("Ha pulsado el botón Menú");
+	}
+	
+	//Acción a realizar cuando es pulsado el botón Atrás
+	function Atras() {
+			var atras = document.getElementById('botonatras');
+			atras.innerHTML = 'Ha pulsado el botón Atrás';
+			alert("Ha pulsado el botón Atrás");
+	}
+	
+	//Acción a realizar cuando es pulsado el botón Buscar
+	function Buscar() {
+			var buscar = document.getElementById('botonbuscar');
+			buscar.innerHTML = 'Ha pulsado el botón Buscar';		
+			alert("Ha pulsado el botón Buscar");
+	}
+	
+	//Utiliza el objeto Date, con los métodos, getHours, getMinutes y getSeconds,
+	 //para obtener la hora del dispositivo
+	 
+	 document.addEventListener("deviceready", mostrarHora, false);
+	setInterval("mostrarHora()", 1000);
+	function mostrarHora() {
+		var horaActual = new Date();
+		var hora = horaActual.getHours();
+		var minutos = horaActual.getMinutes();
+		var segundos = horaActual.getSeconds();
+
+	//Añade un cero a la izquierda de los minutos cuando su 
+    //valor es menor que 10
+		if (minutos < 10) {
+			minutos = '0' + minutos
+		}
+		
+	//Añade un cero a la izquierda de los segundos cuando su 
+    //valor es menor que 10
+		if (segundos < 10) {
+			segundos = '0' + segundos
+		}
+		var reloj = document.getElementById('hora');
+		reloj.innerHTML = hora + ':' + minutos + ':' + segundos;
+	}
+	
+	//Espera a que se inicie PhoneGap
+		document.addEventListener("deviceready", plataformaVersion, false);
+		function plataformaVersion() {
+		var parrafo = document.getElementById('propiedadesDispositivo');
+		parrafo.innerHTML = 'Plataforma: ' + device.platform + 
+		'<br />' + 'Versión: ' + device.version + '<br />'
+		}
+		
+	//Espera a que se inicie PhoneGap
+	document.addEventListener("deviceready", tipoConexion, false);
+	function tipoConexion() {
+		var tipo = navigator.network.connection.type;
+		var valorConexion = {};
+		valorConexion[Connection.UNKNOWN] = 'Desconocida';
+		valorConexion[Connection.ETHERNET] = 'Ethernet';
+		valorConexion[Connection.WIFI] = 'Wifi';
+		valorConexion[Connection.CELL_2G] = '2G';
+		valorConexion[Connection.CELL_3G] = '3G';
+		valorConexion[Connection.CELL_4G] = '4G';
+		valorConexion[Connection.NONE] = 'No se ha detectado ninguna red' ;
+		//document.write('Tipo de conexión: ' + valorConexion[tipo]);
+		var result = document.getElementById('result');
+		result.innerHTML = 'El tipo de conexión es : '+ valorConexion[tipo];
+	}				
+</script>
+</head>
+<body>
+
+<h3>Pulse uno de los siguientes botones: Menú, Atrás o Buscar</h3><br />
+<p id="botonmenu"></p>
+<p id="botonatras"></p>
+<p id="botonbuscar"></p>
+<p id="hora"></p><br />
+<p>El sistema operativo y versión de tu dispositivo es:</p>
+<p id="propiedadesDispositivo">Cargando datos...</p>
+<p id="result"></p>
+	
+</body>
+</html>
